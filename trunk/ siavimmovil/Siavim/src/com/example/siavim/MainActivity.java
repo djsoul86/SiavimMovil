@@ -20,6 +20,8 @@ import java.util.Locale;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -116,8 +118,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			final String URL="http://10.0.2.2:52250/ValidarUsuario.asmx";
 			final String METHOD_NAME = "ValidarEstudiante";
 			final String SOAP_ACTION = "http://sgoliver.net/ValidarEstudiante";
-			HttpClient httpClient = new DefaultHttpClient();
-
+						
 			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 
 			request.addProperty("cedula", params[0]); 
@@ -136,11 +137,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				transporte.call(SOAP_ACTION, envelope);
 				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
 				res = resultado_xml.toString();
-
-				if(res.equals("true"))
-				{
-					reg = true;
-				}
+				
+								
 			} 
 			catch (Exception e) 
 			{
@@ -152,13 +150,32 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 		protected void onPostExecute(String result) {
-			if(result.equals("true")){
-				startActivity(new Intent(getApplicationContext(),Prueba.class));
+			if(!result.equals("false")){
+				JSONObject j;
+				Bundle bolsa = new Bundle();
+				try {
+					j = new JSONObject(result);
+					bolsa.putString("NOMBRE", j.getString("Nombres"));
+					bolsa.putString("APELLIDOS", j.getString("Apellidos"));
+					bolsa.putString("PASSWORD", j.getString("Password"));
+					bolsa.putString("CEDULA", j.getString("Cedula"));
+					bolsa.putString("EMAIL", j.getString("Email"));
+					bolsa.putString("CARRERA", j.getString("Carrera"));
+					bolsa.putString("TELEFONO", j.getString("Telefono"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Intent intent = new Intent(getApplicationContext(),Prueba.class);
+				intent.putExtras(bolsa);
+				//startActivity(new Intent(getApplicationContext(),Prueba.class));
+				startActivity(intent);
+				
 			}else{
 				Toast toast = Toast.makeText(context, "USUARIO O CONTRASEÑA INVALIDA", Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			startActivity(new Intent(getApplicationContext(),Prueba.class));
+			//startActivity(new Intent(getApplicationContext(),Prueba.class));
 		}
 	}
 }
