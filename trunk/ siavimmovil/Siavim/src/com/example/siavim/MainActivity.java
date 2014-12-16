@@ -49,8 +49,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private static Context context;
 
-
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,37 +68,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		TareaRegistroGCM tarea = new TareaRegistroGCM();
 		tarea.execute(usuario.getText().toString(),clave.getText().toString());
-
-		//boolean validar = new TareaRegistroGCM().execute(usuario.getText().toString(),clave.getText().toString());
-		/*
-		if(true == true){
-
-			Intent intent = new Intent("com.example.scanlogisflow.IndexActivity");
-			Bundle bolsa = new Bundle();
-			bolsa.putString("NOMBRE", usuario.getText().toString());
-			bolsa.putString("PASSWORD", clave.getText().toString());
-			intent.putExtras(bolsa);
-			startActivity(intent);
-			//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-		}else{
-			Toast toast = Toast.makeText(this, "La contraseña o el usuario es incorrecto", Toast.LENGTH_SHORT);
-			toast.show();
-		}
-		 */
 	}
 
 	public void IngresarUsuario(String resultado){
 		if(resultado.equals("true")){
 
 			startActivity(new Intent(getApplicationContext(),Prueba.class));
-			//context.startActivity(new Intent(context,Prueba.class));
-			//Intent intent = new Intent("com.example.dsadsa.Prueba");
-			//Bundle bolsa = new Bundle();
-			//bolsa.putString("NOMBRE", usuario.getText().toString());
-			//bolsa.putString("PASSWORD", clave.getText().toString());
-			//intent.putExtras(bolsa);
-			//startActivity(intent);
-			//overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 		}else{
 			Toast toast = Toast.makeText(context, "USUARIO O CONTRASEÑA INVALIDA", Toast.LENGTH_SHORT);
 			toast.show();
@@ -168,14 +141,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 				Intent intent = new Intent(getApplicationContext(),Prueba.class);
 				intent.putExtras(bolsa);
-				//startActivity(new Intent(getApplicationContext(),Prueba.class));
 				startActivity(intent);
 				
 			}else{
 				Toast toast = Toast.makeText(context, "USUARIO O CONTRASEÑA INVALIDA", Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			//startActivity(new Intent(getApplicationContext(),Prueba.class));
 		}
 	}
 }
