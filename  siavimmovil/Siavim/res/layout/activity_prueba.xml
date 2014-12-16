@@ -5,9 +5,23 @@
     android:orientation="vertical"
     tools:context=".Prueba" >
 
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido: "
+        />
+
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/tvNombre"
+        />    
+    
     <Button
         android:id="@+id/btModificar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Modificar Datos" />
+	
 </LinearLayout>

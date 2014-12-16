@@ -28,10 +28,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.dsadsa.Prueba"
+            android:name=".Prueba"
             android:label="Prueba" >
             <intent-filter>
                 <action android:name="com.example.dsadsa.Prueba" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ModificarUser"
+            android:label="ModificarUser" >
+            <intent-filter>
+                <action android:name="com.example.dsadsa.ModificarUser" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
