@@ -80,6 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
+
 	private class TareaRegistroGCM extends AsyncTask<String,Integer,String>
 	{
 		@Override
@@ -91,7 +92,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			final String URL="http://10.0.2.2:52250/ValidarUsuario.asmx";
 			final String METHOD_NAME = "ValidarEstudiante";
 			final String SOAP_ACTION = "http://sgoliver.net/ValidarEstudiante";
-						
+
 			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 
 			request.addProperty("cedula", params[0]); 
@@ -110,13 +111,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				transporte.call(SOAP_ACTION, envelope);
 				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
 				res = resultado_xml.toString();
-				
-								
+
+
 			} 
 			catch (Exception e) 
 			{
-				String prueba = e.toString();
-				String a = "aaa";
+				Toast toast = Toast.makeText(context, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
 			} 
 
 			return res;
@@ -142,10 +143,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				Intent intent = new Intent(getApplicationContext(),Prueba.class);
 				intent.putExtras(bolsa);
 				startActivity(intent);
-				
+
 			}else{
-				Toast toast = Toast.makeText(context, "USUARIO O CONTRASEÑA INVALIDA", Toast.LENGTH_SHORT);
-				toast.show();
+
 			}
 		}
 	}

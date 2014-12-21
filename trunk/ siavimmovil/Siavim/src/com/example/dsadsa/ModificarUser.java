@@ -9,6 +9,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,9 +24,10 @@ import android.widget.Toast;
 
 public class ModificarUser extends Activity {
 
-	Button btModificar;
+	Button btModificar,btnVerCurso;
 	EditText nombre,email,apellidos,telefono,password;
 	String cedula;
+	private static Context context; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class ModificarUser extends Activity {
 		telefono = (EditText)findViewById(R.id.tvTelefonoUsuario);
 		password = (EditText)findViewById(R.id.tvPasswordUsuario);
 		btModificar = (Button)findViewById(R.id.btGuardar);
+		btnVerCurso  = (Button)findViewById(R.id.btInfoCurso);
 		Bundle bolsa = getIntent().getExtras();
 		nombre.setText(bolsa.getString("NOMBRE"));
 		apellidos.setText(bolsa.getString("APELLIDOS"));
@@ -49,6 +52,18 @@ public class ModificarUser extends Activity {
 			public void onClick(View arg0) {
 				ModificarUsuario tarea = new ModificarUsuario();
 				tarea.execute(nombre.getText().toString(),apellidos.getText().toString(),telefono.getText().toString(),email.getText().toString(),password.getText().toString(),cedula);
+			}
+		});
+		
+		btnVerCurso.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Bundle bolsa = new Bundle();
+				bolsa.putString("CEDULA", cedula);
+				Intent intent = new Intent(getApplicationContext(),MostrarCursoActivity.class);
+				intent.putExtras(bolsa);
+				startActivity(intent);
+				
 			}
 		});
 	}
@@ -87,18 +102,14 @@ public class ModificarUser extends Activity {
 				transporte.call(SOAP_ACTION, envelope);
 				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
 				res = resultado_xml.toString();
-				
-								
 			} 
 			catch (Exception e) 
 			{
-				String prueba = e.toString();
-				String a = "aaa";
+				Toast toast = Toast.makeText(context, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
 			} 
-
 			return res;
 		}
-		
 	}
 
 	@Override
