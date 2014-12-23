@@ -1,5 +1,6 @@
 package com.example.dsadsa;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -9,21 +10,27 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MostrarCursoActivity extends Activity {
 
+	TextView labelCurso,labelIntensidad;
+	EditText etCurso,etIntensidad;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mostrar_curso);
 		Bundle bolsa = getIntent().getExtras();
 		ConsultarInfoCurso tarea = new ConsultarInfoCurso();
+		labelCurso = (TextView)findViewById(R.id.LabelNombreCurso);
+		labelIntensidad = (TextView)findViewById(R.id.LabelIntensidadHoraria);
+		etCurso = (EditText)findViewById(R.id.tvNombreCurso);
+		etIntensidad = (EditText)findViewById(R.id.tvIntensidadHoraria);
 		tarea.execute(bolsa.getString("CEDULA"));
 		
 	}
@@ -68,25 +75,32 @@ public class MostrarCursoActivity extends Activity {
 			return res;
 		}
 		
+		protected void onPostExecute(String result) {
+			if(!result.equals("false")){
+				JSONObject j;
+						
+				try {
+					
+					JSONArray jObj = new JSONArray(result);
+					for (int i = 0; i < jObj.length(); ++i) {
+					    JSONObject rec = jObj.getJSONObject(i);
+					    String loc = rec.getString("NombreCurso");
+					    
+					}
+				} catch (JSONException e) {
+					
+					e.printStackTrace();
+				}
+				
+				
+			}else{
+				
+			}
+		}
+		
 	}
 	
-	protected void onPostExecute(String result) {
-		if(!result.equals("false")){
-			JSONObject j;
-			Bundle bolsa = new Bundle();
-			try {
-				j = new JSONObject(result);
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		}else{
-			
-		}
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

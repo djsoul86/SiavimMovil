@@ -27,19 +27,23 @@ public final class R {
     public static final class id {
         public static final int LabelApellido=0x7f080005;
         public static final int LabelEmail=0x7f080007;
+        public static final int LabelIntensidadHoraria=0x7f080011;
+        public static final int LabelNombreCurso=0x7f08000f;
         public static final int LabelPassword=0x7f08000b;
         public static final int LabelTelefono=0x7f080009;
         public static final int LabelUser=0x7f080003;
-        public static final int action_settings=0x7f080011;
+        public static final int action_settings=0x7f080015;
         public static final int btGuardar=0x7f08000d;
         public static final int btInfoCurso=0x7f08000e;
         public static final int btIngresar=0x7f080002;
-        public static final int btModificar=0x7f080010;
+        public static final int btModificar=0x7f080014;
         public static final int etContrasena=0x7f080001;
         public static final int etUsuario=0x7f080000;
         public static final int tvApellidoUsuario=0x7f080006;
         public static final int tvEmailUsuario=0x7f080008;
-        public static final int tvNombre=0x7f08000f;
+        public static final int tvIntensidadHoraria=0x7f080012;
+        public static final int tvNombre=0x7f080013;
+        public static final int tvNombreCurso=0x7f080010;
         public static final int tvNombreUsuario=0x7f080004;
         public static final int tvPasswordUsuario=0x7f08000c;
         public static final int tvTelefonoUsuario=0x7f08000a;
