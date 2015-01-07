@@ -25,10 +25,11 @@
         <EditText
             android:id="@+id/tvNombreCurso"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:editable="false"/>
+            android:layout_height="wrap_content"
+            android:editable="false" />
     </LinearLayout>
-<LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -48,7 +49,15 @@
         <EditText
             android:id="@+id/tvIntensidadHoraria"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:editable="false"/>
+            android:layout_height="wrap_content"
+            android:editable="false" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutDinamic"
+        android:orientation="vertical" >
+    </LinearLayout>
+
 </LinearLayout>
