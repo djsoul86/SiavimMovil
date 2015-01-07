@@ -8,6 +8,8 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import com.example.siavim.MainActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -63,10 +65,14 @@ public class ModificarUser extends Activity {
 				Intent intent = new Intent(getApplicationContext(),MostrarCursoActivity.class);
 				intent.putExtras(bolsa);
 				startActivity(intent);
-				
 			}
 		});
 	}
+	
+	public static Context getAppContext() {
+		return ModificarUser.context;
+	}
+
 	
 	private class ModificarUsuario extends AsyncTask<String,Integer,String>
 	{
@@ -100,8 +106,6 @@ public class ModificarUser extends Activity {
 			try 
 			{
 				transporte.call(SOAP_ACTION, envelope);
-				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
-				res = resultado_xml.toString();
 			} 
 			catch (Exception e) 
 			{
