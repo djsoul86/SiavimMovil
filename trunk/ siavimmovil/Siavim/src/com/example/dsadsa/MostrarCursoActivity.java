@@ -10,6 +10,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -19,9 +20,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.models.*;
+
+import com.example.models.Horarios;
 
 public class MostrarCursoActivity extends Activity {
 
@@ -29,6 +33,7 @@ public class MostrarCursoActivity extends Activity {
 	TextView labelCurso,labelIntensidad;
 	EditText etCurso,etIntensidad;
 	LinearLayout myLinearLayout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,7 +45,9 @@ public class MostrarCursoActivity extends Activity {
 		etCurso = (EditText)findViewById(R.id.tvNombreCurso);
 		etIntensidad = (EditText)findViewById(R.id.tvIntensidadHoraria);
 		myLinearLayout = (LinearLayout)findViewById(R.id.layoutDinamic);
-		tarea.execute(bolsa.getString("CEDULA"));
+		tarea.execute(bolsa.getString("CEDULA"),bolsa.getString("NOMBRECURSO"));
+		
+		
 	}
 
 	public static Context getAppContext() {
@@ -59,6 +66,7 @@ public class MostrarCursoActivity extends Activity {
 			final String SOAP_ACTION = "http://sgoliver.net/ObtenerCursoPorIdUsuario";
 			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 			request.addProperty("cedula", params[0]); 
+			request.addProperty("nombreCurso",params[1]);
 			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			envelope.dotNet = true; 
 			envelope.setOutputSoapObject(request);

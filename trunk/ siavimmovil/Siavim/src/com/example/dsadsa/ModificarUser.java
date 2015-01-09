@@ -1,14 +1,11 @@
 package com.example.dsadsa;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-
-import com.example.siavim.MainActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,9 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ModificarUser extends Activity {
@@ -29,7 +27,9 @@ public class ModificarUser extends Activity {
 	Button btModificar,btnVerCurso;
 	EditText nombre,email,apellidos,telefono,password;
 	String cedula;
-	private static Context context; 
+	private static Context context;
+	ArrayList<String> cadena = new ArrayList<String>();
+	Spinner opcion1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,9 +45,16 @@ public class ModificarUser extends Activity {
 		nombre.setText(bolsa.getString("NOMBRE"));
 		apellidos.setText(bolsa.getString("APELLIDOS"));
 		email.setText(bolsa.getString("EMAIL"));
+		String[] aux = bolsa.getString("NOMBRECURSO").split(",");
+		for(int i =0;i<aux.length;i++){
+			cadena.add(aux[i]);
+		}
 		telefono.setText(bolsa.getString("TELEFONO"));
 		password.setText(bolsa.getString("PASSWORD"));
 		cedula = bolsa.getString("CEDULA");
+		ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,cadena);
+		opcion1 = (Spinner) findViewById(R.id.spOpcion1);
+		opcion1.setAdapter(adaptador);
 		
 		btModificar.setOnClickListener(new OnClickListener() {
 			@Override
@@ -60,8 +67,10 @@ public class ModificarUser extends Activity {
 		btnVerCurso.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				
 				Bundle bolsa = new Bundle();
 				bolsa.putString("CEDULA", cedula);
+				bolsa.putString("NOMBRECURSO", opcion1.getSelectedItem().toString());
 				Intent intent = new Intent(getApplicationContext(),MostrarCursoActivity.class);
 				intent.putExtras(bolsa);
 				startActivity(intent);
