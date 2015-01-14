@@ -23,5 +23,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Modificar Datos" />
+    
+    <Button
+        android:id="@+id/btCursos"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Cursos" />
+    
 	
 </LinearLayout>
