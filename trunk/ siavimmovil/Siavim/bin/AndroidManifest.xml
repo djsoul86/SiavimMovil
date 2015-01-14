@@ -49,6 +49,10 @@
             android:name=".MostrarCursoActivity"
             android:label="@string/title_activity_mostrar_curso" >
         </activity>
+        <activity
+            android:name=".Principal_cursos"
+            android:label="@string/title_activity_principal_cursos" >
+        </activity>
     </application>
 
 </manifest>

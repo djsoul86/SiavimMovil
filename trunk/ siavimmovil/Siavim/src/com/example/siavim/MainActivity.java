@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		MainActivity.context = getApplicationContext();
-
+		setTitle("LOGIN");
 		usuario = (EditText) findViewById(R.id.etUsuario);
 		clave = (EditText) findViewById(R.id.etContrasena);
 		btIngresar = (Button) findViewById(R.id.btIngresar);

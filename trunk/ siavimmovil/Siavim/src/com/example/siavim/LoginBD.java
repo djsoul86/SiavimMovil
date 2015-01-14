@@ -28,7 +28,7 @@ public class LoginBD {
 	
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Login_Detail";
-	private static final int VERSION_BD = 2;
+	private static final int VERSION_BD = 4;
 	Vector loginvector = new Vector();
 
 	private BDHelper nHelper;
