@@ -1,9 +1,11 @@
-package com.example.siavim;
+package databaseModels;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
+
+import com.example.siavim.Login;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +30,7 @@ public class LoginBD {
 	
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Login_Detail";
-	private static final int VERSION_BD = 4;
+	private static final int VERSION_BD = 5;
 	Vector loginvector = new Vector();
 
 	private BDHelper nHelper;

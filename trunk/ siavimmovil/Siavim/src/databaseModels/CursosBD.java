@@ -1,4 +1,4 @@
-package com.example.siavim;
+package databaseModels;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ public class CursosBD {
 	public static final String ID_JUEVES = "horario_jueves";
 	public static final String ID_VIERNES = "horario_viernes";
 	public static final String ID_SABADO = "horario_sabado";
-	Vector cursosVector = new Vector();
+	Vector<Horarios> cursosVector = new Vector<Horarios>();
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Cursos_Detail";
-	private static final int VERSION_BD = 4;
+	private static final int VERSION_BD = 5;
 
 
 	private BDHelper nHelper;
@@ -56,24 +56,21 @@ public class CursosBD {
 					ID_CURSO + " TEXT NOT NULL, " +
 					ID_NOMBRECURSO + " TEXT NOT NULL, " +
 					ID_INTENSIDADH + " TEXT NOT NULL, " +
-					ID_LUNES + " TEXT NOT NULL, " +
-					ID_MARTES + " TEXT NOT NULL, " +
-					ID_MIERCOLES + " TEXT NOT NULL, " +
-					ID_JUEVES + " TEXT NOT NULL, " +
-					ID_VIERNES + " TEXT NOT NULL, " +
-					ID_SABADO + " TEXT NOT NULL, " +
+					ID_LUNES + " TEXT , " +
+					ID_MARTES + " TEXT , " +
+					ID_MIERCOLES + " TEXT , " +
+					ID_JUEVES + " TEXT , " +
+					ID_VIERNES + " TEXT , " +
+					ID_SABADO + " TEXT , " +
 					ID_PROFESOR + " TEXT NOT NULL);"
-
 					);
 
 		}
-
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLA);
 			onCreate(db);
 		}
-
 	}
 
 	public CursosBD(Context c) {
@@ -90,8 +87,9 @@ public class CursosBD {
 		nHelper.close();
 	}
 
-	public long crearEntrada(ArrayList<Horarios> model) {
+	public void crearEntrada(ArrayList<Horarios> model) {
 		ContentValues cv = new ContentValues();
+		borrar();
 		for(int i=0;i<model.size();i++){
 			Horarios h = new Horarios();
 			h = model.get(i);
@@ -105,14 +103,14 @@ public class CursosBD {
 			cv.put(ID_JUEVES, h.getJueves());
 			cv.put(ID_VIERNES, h.getViernes());
 			cv.put(ID_SABADO, h.getSabado());
+			nBD.insert(N_TABLA, null, cv);
 		}
-		return nBD.insert(N_TABLA, null, cv);
 	}
 
-	public Vector recibir() {
+	public Vector<Horarios> recibir() {
 		// TODO Auto-generated method stub
 		String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
-		Cursor c = nBD.query(N_TABLA, columnas,null, null, null, null, null);
+		Cursor c = nBD.rawQuery("Select * from " + N_TABLA, null);
 
 		int iIdCurso = c.getColumnIndex(ID_CURSO);
 		int iNombreCurso = c.getColumnIndex(ID_NOMBRECURSO);
@@ -126,7 +124,6 @@ public class CursosBD {
 		int iSabado = c.getColumnIndex(ID_SABADO);
 
 		for(c.moveToFirst();! c.isAfterLast(); c.moveToNext()){
-
 			Horarios hor = new Horarios();
 			hor.setIDCurso(c.getString(iIdCurso));
 			hor.setNombreCurso(c.getString(iNombreCurso));
@@ -139,10 +136,43 @@ public class CursosBD {
 			hor.setViernes(c.getString(iViernes));
 			hor.setSabado(c.getString(iSabado));
 			cursosVector.add(hor);
-
 		}
 		return cursosVector;
 	}
+	
+	public Vector<Horarios> ObtenerCursoPorID(String idCurso) {
+		// TODO Auto-generated method stub
+		String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
+		Cursor c = nBD.rawQuery("Select * from " + N_TABLA + " where " + ID_NOMBRECURSO + " = " + idCurso, null);
+
+		int iIdCurso = c.getColumnIndex(ID_CURSO);
+		int iNombreCurso = c.getColumnIndex(ID_NOMBRECURSO);
+		int iIntensidad = c.getColumnIndex(ID_INTENSIDADH);
+		int iProfesor = c.getColumnIndex(ID_PROFESOR);
+		int iLunes = c.getColumnIndex(ID_LUNES);
+		int iMartes = c.getColumnIndex(ID_MARTES);
+		int iMiercoles = c.getColumnIndex(ID_MIERCOLES);
+		int iJueves = c.getColumnIndex(ID_JUEVES);
+		int iViernes= c.getColumnIndex(ID_VIERNES);
+		int iSabado = c.getColumnIndex(ID_SABADO);
+
+		for(c.moveToFirst();! c.isAfterLast(); c.moveToNext()){
+			Horarios hor = new Horarios();
+			hor.setIDCurso(c.getString(iIdCurso));
+			hor.setNombreCurso(c.getString(iNombreCurso));
+			hor.setIntensidad(c.getInt(iIntensidad));
+			hor.setIdProfesor(c.getString(iProfesor));
+			hor.setLunes(c.getString(iLunes));
+			hor.setMartes(c.getString(iMartes));
+			hor.setMiercoles(c.getString(iMiercoles));
+			hor.setJueves(c.getString(iJueves));
+			hor.setViernes(c.getString(iViernes));
+			hor.setSabado(c.getString(iSabado));
+			cursosVector.add(hor);
+		}
+		return cursosVector;
+	}
+	
 	/*
 	public void ModificarStatus(String user, String password,String apellido, String email, String carrera, String telefono,String cedula) {
 		try{
