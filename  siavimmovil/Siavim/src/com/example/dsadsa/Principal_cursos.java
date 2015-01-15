@@ -1,12 +1,24 @@
 package com.example.dsadsa;
 
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.models.Horarios;
+
+import databaseModels.CursosBD;
 
 public class Principal_cursos extends Activity {
 
@@ -15,12 +27,32 @@ public class Principal_cursos extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_principal_cursos);
+		setTitle("CURSOS ASOCIADOS");
+		CursosBD curso = new CursosBD(Principal_cursos.this);
+		curso.abrir();
+		Vector<Horarios> cursos = curso.recibir();
+		curso.cerrar();
+		ArrayList<String> listaCursos = new ArrayList<String>();
+		for(int i=0;i<cursos.size();i++){
+			Horarios h = new Horarios();
+			h = cursos.elementAt(i);
+			listaCursos.add(h.NombreCurso);
+		}
 		lista = (ListView) findViewById(R.id.lvLista);
-		String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-		        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-		        "Linux", "OS/2" };
-		final ArrayAdapter<String> aa = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,values);
+		final ArrayAdapter<String> aa = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listaCursos);
 		lista.setAdapter(aa);
+		
+		lista.setOnItemClickListener(new OnItemClickListener() {
+			  @Override
+			  public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				  String data=(String)parent.getItemAtPosition(position);
+				  Intent intent = new Intent(getApplicationContext(),MenuCursos.class);
+				  Bundle bolsa = new Bundle();
+				  bolsa.putString("CURSO", data);
+				  intent.putExtras(bolsa);
+				  startActivity(intent);
+			  }
+			}); 
 	}
 
 	@Override

@@ -46,8 +46,6 @@ public class MostrarCursoActivity extends Activity {
 		etIntensidad = (EditText)findViewById(R.id.tvIntensidadHoraria);
 		myLinearLayout = (LinearLayout)findViewById(R.id.layoutDinamic);
 		tarea.execute(bolsa.getString("CEDULA"),bolsa.getString("NOMBRECURSO"));
-		
-		
 	}
 
 	public static Context getAppContext() {

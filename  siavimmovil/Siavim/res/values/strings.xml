@@ -8,5 +8,6 @@
     <string name="title_activity_modificar_user">ModificarUser</string>
     <string name="title_activity_mostrar_curso">MostrarCursoActivity</string>
     <string name="title_activity_principal_cursos">Principal_cursos</string>
+    <string name="title_activity_menu_cursos">MenuCursos</string>
 
 </resources>
