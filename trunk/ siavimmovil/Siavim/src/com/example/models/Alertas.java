@@ -2,16 +2,16 @@ package com.example.models;
 
 public class Alertas {
 	
-	public String idAlerta;
-	public String idCurso;
+	public int idAlerta;
+	public int idCurso;
 	public String TipoAlerta;
 	public String DetalleAlerta;
 	public String ProcesadaOK;
 
-	public void setIdCurso(String idCurso) {
+	public void setIdCurso(int idCurso) {
 		this.idCurso = idCurso;
 	}
-	public String getIdCurso() {
+	public int getIdCurso() {
 		return idCurso;
 	}
 	
@@ -22,7 +22,7 @@ public class Alertas {
 		return DetalleAlerta;
 	}
 	
-	public String getIdAlerta() {
+	public int getIdAlerta() {
 		return idAlerta;
 	}
 	public String getProcesadaOK() {
@@ -31,7 +31,7 @@ public class Alertas {
 	public String getTipoAlerta() {
 		return TipoAlerta;
 	}
-	public void setIdAlerta(String idAlerta) {
+	public void setIdAlerta(int idAlerta) {
 		this.idAlerta = idAlerta;
 	}
 	public void setProcesadaOK(String procesadaOK) {

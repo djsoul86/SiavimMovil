@@ -26,7 +26,7 @@ public class AlertasBD {
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Alertas_Detail";
-	private static final int VERSION_BD = 5;
+	private static final int VERSION_BD = 8;
 
 
 	private BDHelper nHelper;
@@ -50,7 +50,7 @@ public class AlertasBD {
 					ID_CURSO + " TEXT NOT NULL, " +
 					ID_DESCRIPCIONALERTA + " TEXT NOT NULL, " +
 					ID_TIPOALERTA + " TEXT NOT NULL, " +
-					ID_PROCESADAOK + " TEXT );"
+					ID_PROCESADAOK + " TEXT NOT NULL );"
 					);
 
 		}
@@ -75,22 +75,22 @@ public class AlertasBD {
 		nHelper.close();
 	}
 
-	public void crearEntrada(ArrayList<Horarios> model) {
+	public void crearEntrada(ArrayList<Alertas> model) {
 		ContentValues cv = new ContentValues();
 		borrar();
 		for(int i=0;i<model.size();i++){
-			Horarios h = new Horarios();
+			Alertas h = new Alertas();
 			h = model.get(i);
-			cv.put(ID_ALERTA, h.getIDCurso());
-			cv.put(ID_CURSO, h.getNombreCurso());
-			cv.put(ID_DESCRIPCIONALERTA,h.getIntensidad());
-			cv.put(ID_PROCESADAOK, h.getIdProfesor());
-			cv.put(ID_TIPOALERTA,h.getLunes());
+			cv.put(ID_ALERTA, h.getIdAlerta());
+			cv.put(ID_CURSO, h.getIdCurso());
+			cv.put(ID_DESCRIPCIONALERTA,h.getDetalleAlerta());
+			cv.put(ID_PROCESADAOK, h.getProcesadaOK());
+			cv.put(ID_TIPOALERTA,h.getTipoAlerta());
 			nBD.insert(N_TABLA, null, cv);
 		}
 	}
 
-	public Vector<Alertas> recibir() {
+	public Vector<Alertas> obtenerAlertas() {
 		// TODO Auto-generated method stub
 		String[] columnas = new String[]{ID_ALERTA,ID_CURSO,ID_DESCRIPCIONALERTA,ID_PROCESADAOK,ID_TIPOALERTA};
 		Cursor c = nBD.rawQuery("Select * from " + N_TABLA, null);
@@ -103,8 +103,8 @@ public class AlertasBD {
 		
 		for(c.moveToFirst();! c.isAfterLast(); c.moveToNext()){
 			Alertas al = new Alertas();
-			al.setIdAlerta(c.getString(iIdAlerta));
-			al.setIdCurso(c.getString(iIdCurso));
+			al.setIdAlerta(c.getInt(iIdAlerta));
+			al.setIdCurso(c.getInt(iIdCurso));
 			al.setDetalleAlerta(c.getString(iDescripcion));
 			al.setProcesadaOK(c.getString(iProcesada));
 			al.setTipoAlerta(c.getString(iTipoAlerta));
