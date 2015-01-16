@@ -28,9 +28,16 @@ public class LoginBD {
 	public static final String ID_CARRERA = "carrera_usuario";
 	public static final String ID_TELEFONO = "telefono_usuario";
 	
+	public static final String ID_ALERTA = "_idalerta";
+	public static final String ID_TIPOALERTA = "id_tipoalerta";
+	public static final String ID_DESCRIPCIONALERTA = "descripcion_alerta";
+	public static final String ID_PROCESADAOK = "procesadoOk";
+	public static final String ID_CURSO = "id_curso";
+	
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Login_Detail";
-	private static final int VERSION_BD = 5;
+	private static final String N_TABLAALERTA = "Alertas_Detail";
+	private static final int VERSION_BD = 8;
 	Vector loginvector = new Vector();
 
 	private BDHelper nHelper;
@@ -61,6 +68,14 @@ public class LoginBD {
 					ID_PASSWORD + " TEXT NOT NULL, " +
 					ID_FECHALOGIN + " TEXT NOT NULL);"
 
+					);
+			
+			db.execSQL("CREATE TABLE " + N_TABLAALERTA + "(" + 
+					ID_ALERTA + " INTEGER PRIMARY KEY , " +
+					ID_CURSO + " TEXT NOT NULL, " +
+					ID_DESCRIPCIONALERTA + " TEXT NOT NULL, " +
+					ID_TIPOALERTA + " TEXT NOT NULL, " +
+					ID_PROCESADAOK + " TEXT NOT NULL );"
 					);
 
 		}

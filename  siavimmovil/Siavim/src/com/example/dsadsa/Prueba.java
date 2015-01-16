@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.models.Alertas;
 import com.example.models.Horarios;
+
+import databaseModels.AlertasBD;
 import databaseModels.CursosBD;
 import databaseModels.LoginBD;
 
@@ -45,10 +49,10 @@ public class Prueba extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prueba);
-		
+
 		setTitle("INDEX");
 		nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        nm.cancel(unico);
+		nm.cancel(unico);
 		Bundle bolsa = getIntent().getExtras();
 		nombreUsuario = bolsa.getString("NOMBRE");
 		apellidos = bolsa.getString("APELLIDOS");
@@ -65,12 +69,13 @@ public class Prueba extends Activity {
 		CargarInfoBDCurso info = new CargarInfoBDCurso();
 		tarea.execute(cedula);
 		info.execute(cedula);
+
 		lbd.abrir();
 		lbd.ModificarStatus(bolsa.getString("NOMBRE"),bolsa.getString("PASSWORD"),bolsa.getString("APELLIDOS"),bolsa.getString("EMAIL"),bolsa.getString("CARRERA"),bolsa.getString("TELEFONO"),bolsa.getString("CEDULA"));
 		loguser = lbd.recibir();
 		lbd.cerrar();
 		hand.removeCallbacks(actualizar);
-        hand.postDelayed(actualizar,1000);
+		hand.postDelayed(actualizar,1000);
 		btModificar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -96,23 +101,34 @@ public class Prueba extends Activity {
 			}
 		});
 	}
-	
-private Runnable actualizar = new Runnable() {
-		
+
+	private Runnable actualizar = new Runnable() {
+
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			correr();
-	        hand.postDelayed(this, 40000);
-	        
+			hand.postDelayed(this, 40000000);
+
 		}
 	};
-	
+
 	public void correr(){
+		AlertasBD ab = new AlertasBD(Prueba.this);			
+		ab.abrir();
+		Vector<Alertas> alert = ab.obtenerAlertas();
+		String alerts = "";
+		if(alert.size()>0){
+			Alertas obj = new Alertas();
+			for(int i=0;i<alert.size();i++){
+				obj = alert.elementAt(i);
+				alerts += obj.getIdAlerta();
+			}
+		}
+		ab.cerrar();
 		ConsultarAlertas info = new ConsultarAlertas();
-		info.execute(cedula);
+		info.execute(cedula,alerts);
 	}
-	
+
 
 	private class ConsultarInfoCurso extends AsyncTask<String,Integer,String>
 	{
@@ -126,6 +142,7 @@ private Runnable actualizar = new Runnable() {
 			final String SOAP_ACTION = "http://sgoliver.net/ObtenerNombreCurso";
 			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 			request.addProperty("cedula", params[0]); 
+			//request.addProperty("idAlertas", params[1]);
 			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			envelope.dotNet = true; 
 			envelope.setOutputSoapObject(request);
@@ -149,7 +166,7 @@ private Runnable actualizar = new Runnable() {
 			nombreCursos = result;
 		}
 	}
-	
+
 	private class ConsultarAlertas extends AsyncTask<String,Integer,String>
 	{
 		@Override
@@ -161,7 +178,8 @@ private Runnable actualizar = new Runnable() {
 			final String METHOD_NAME = "ObtenerAlertas";
 			final String SOAP_ACTION = "http://sgoliver.net/ObtenerAlertas";
 			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-			request.addProperty("cedula", params[0]); 
+			request.addProperty("cedula", params[0]);
+			request.addProperty("idAlertas",params[1]);
 			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			envelope.dotNet = true; 
 			envelope.setOutputSoapObject(request);
@@ -182,23 +200,48 @@ private Runnable actualizar = new Runnable() {
 		}
 
 		protected void onPostExecute(String result) {
-			Intent intent = new Intent(Prueba.this,Principal_cursos.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent pi = PendingIntent.getActivity(Prueba.this, 0, intent,0);
-			String cuerpo = "Tienes Notificaciones";
-			String titulo = "Hola";
-			Notification n = new Notification(R.drawable.ic_launcher,cuerpo,System.currentTimeMillis());
-			n.setLatestEventInfo(Prueba.this, "adsa", "asdada", pi);
-		    n.flags |= Notification.FLAG_AUTO_CANCEL;
-		    nm.notify(unico, n);
-			int contador = 0;
+			try{
+			if(result!= ""){
+				JSONArray jObj;
+				ArrayList<Alertas> lista = new ArrayList<Alertas>();
+				
+					
+					jObj = new JSONArray(result);
+					JSONObject rec = jObj.getJSONObject(0);
+					Alertas alertas = new Alertas();
+					alertas.setIdAlerta(rec.getInt("IdAlerta"));
+					alertas.setIdCurso(rec.getInt("IdCurso"));
+					alertas.setTipoAlerta(rec.getString("TipoAlerta"));
+					alertas.setDetalleAlerta(rec.getString("DetalleAlerta"));
+					alertas.setProcesadaOK("1");
+					lista.add(alertas);
+					AlertasBD ab = new AlertasBD(Prueba.this);
+					ab.abrir();
+					ab.crearEntrada(lista);
+					ab.cerrar();
+					
+					Intent intent = new Intent(Prueba.this,Principal_cursos.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					PendingIntent pi = PendingIntent.getActivity(Prueba.this, 0, intent,0);
+					String cuerpo = "Tienes Notificaciones";
+					String titulo = "Hola";
+					Notification n = new Notification(R.drawable.ic_launcher,cuerpo,System.currentTimeMillis());
+					n.setLatestEventInfo(Prueba.this, alertas.getTipoAlerta(), alertas.getTipoAlerta(), pi);
+					n.flags |= Notification.FLAG_AUTO_CANCEL;
+					nm.notify(unico, n);
+					int contador = 0;
+					contador = contador + 1;
+			}
+			}catch (RuntimeException e){
+
+                Log.i("dsa", "RuntimeException caught");
+                e.printStackTrace();
+            } catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+								
 			
-			contador = contador + 1;
-			
-			//n.setLatestEventInfo(Prueba.this, titulo, cuerpo + contador, pi);
-			//n.defaults = Notification.DEFAULT_ALL;
-			//nm.notify(unico,n);
-			//finish();
 		}
 	}
 
@@ -286,6 +329,7 @@ private Runnable actualizar = new Runnable() {
 				cbd.abrir();
 				cbd.crearEntrada(hor);
 				cbd.cerrar();
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
