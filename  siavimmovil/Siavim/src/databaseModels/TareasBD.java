@@ -107,7 +107,6 @@ public class TareasBD {
 			tar.setDescripcionTarea(c.getString(iDescripcion));
 			tar.setFechaEntrega(c.getString(iFechaEntrega));
 			tar.setFechaCreacion(c.getString(iFechaCreacion));
-
 			TareasVector.add(tar);
 		}
 		return TareasVector;

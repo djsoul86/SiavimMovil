@@ -10,5 +10,23 @@
     <string name="title_activity_principal_cursos">Principal_cursos</string>
     <string name="title_activity_menu_cursos">MenuCursos</string>
     <string name="title_activity_tareas__principal">Tareas_Principal</string>
+    
+    <string name="Bienvenido">Bienvenido</string>
+    <string name="Modificar_Datos">Modificar Datos</string>
+    <string name="Ver_Cursos">Ver Cursos</string>
+    <string name="Nombre_Curso">Nombre Curso</string>
+    <string name="Intensidad_Horaria">Intensidad Horaria</string>
+    <string name="Nombre">Nombre :</string>
+    <string name="Apellido">Apellido : </string>
+    <string name="Email">Email :</string>
+    <string name="Telefono">Telefono :</string>
+    <string name="Password">Password :</string>
+    <string name="Cursos">Cursos :</string>
+    <string name="Guardar">Guardar</string>
+    <string name="Ver_Info_Curso">Ver Info Curso</string>
+    <string name="Usuario">Usuario</string>
+    <string name="Contrasena">Contraseña</string>
+    <string name="Ingresar">Ingresar</string>
+    
 
 </resources>

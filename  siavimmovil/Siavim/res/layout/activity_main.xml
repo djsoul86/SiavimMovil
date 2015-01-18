@@ -9,27 +9,27 @@
         android:id="@+id/etUsuario"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuario" />
+        android:hint="@string/Usuario" />
 
     <EditText
         android:id="@+id/etContrasena"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Contrasena"
-        android:password="true" />
+        android:hint="@string/Contrasena"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btIngresar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresar" />
+        android:text="@string/Ingresar" />
 
         <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textSize="17dp"
+        android:textSize="17sp"
         android:textColor="#f9f93d" />
     
 </LinearLayout>

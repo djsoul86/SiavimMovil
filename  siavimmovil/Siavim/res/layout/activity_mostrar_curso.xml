@@ -14,7 +14,7 @@
             android:id="@+id/LabelNombreCurso"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Nombre Curso:" />
+            android:text="@string/Nombre_Curso" />
     </LinearLayout>
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:id="@+id/tvNombreCurso"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:editable="false" />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +38,7 @@
             android:id="@+id/LabelIntensidadHoraria"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Intensidad Horaria:" />
+            android:text="@string/Intensidad_Horaria" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,7 +50,7 @@
             android:id="@+id/tvIntensidadHoraria"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:editable="false" />
+            android:inputType="text"/>
     </LinearLayout>
 
     <LinearLayout
