@@ -12,7 +12,7 @@
             android:id="@+id/LabelUser"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Nombre :" />
+            android:text="@string/Nombre" />
     </LinearLayout>
 
     <LinearLayout
@@ -23,7 +23,8 @@
         <EditText
             android:id="@+id/tvNombreUsuario"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,7 +36,7 @@
             android:id="@+id/LabelApellido"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Apellido :" />
+            android:text="@string/Apellido" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,7 +47,8 @@
         <EditText
             android:id="@+id/tvApellidoUsuario"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +60,7 @@
             android:id="@+id/LabelEmail"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Email :" />
+            android:text="@string/Email" />
     </LinearLayout>
 
     <LinearLayout
@@ -69,7 +71,8 @@
         <EditText
             android:id="@+id/tvEmailUsuario"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,7 +84,7 @@
             android:id="@+id/LabelTelefono"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Telefono :" />
+            android:text="@string/Telefono" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +95,8 @@
         <EditText
             android:id="@+id/tvTelefonoUsuario"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -104,7 +108,7 @@
             android:id="@+id/LabelPassword"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Password :" />
+            android:text="@string/Password" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,7 +119,9 @@
         <EditText
             android:id="@+id/tvPasswordUsuario"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+            android:inputType="textPassword"/>
+        	
     </LinearLayout>
 
     <LinearLayout
@@ -127,7 +133,7 @@
             android:id="@+id/LabelCursos"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Cursos :" />
+            android:text="@string/Cursos" />
     </LinearLayout>
     
     <LinearLayout
@@ -150,7 +156,7 @@
             android:id="@+id/btGuardar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar" />
+            android:text="@string/Guardar" />
     </LinearLayout>
 
     <LinearLayout
@@ -162,7 +168,7 @@
             android:id="@+id/btInfoCurso"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Ver Info Curso" />
+            android:text="@string/Ver_Info_Curso" />
     </LinearLayout>
 
 </LinearLayout>

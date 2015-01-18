@@ -262,30 +262,23 @@ public class Prueba extends Activity {
 			try{
 				if(result!= ""){
 					JSONArray jObj;
+					Alertas alertas = new Alertas();
+					AlertasBD ab = new AlertasBD(Prueba.this);					
 					ArrayList<Alertas> lista = new ArrayList<Alertas>();
 					jObj = new JSONArray(result);
-					JSONObject rec = jObj.getJSONObject(0);
-					Alertas alertas = new Alertas();
-					alertas.setIdAlerta(rec.getInt("IdAlerta"));
-					alertas.setIdCurso(rec.getInt("IdCurso"));
-					alertas.setTipoAlerta(rec.getString("TipoAlerta"));
-					alertas.setDetalleAlerta(rec.getString("DetalleAlerta"));
-					alertas.setProcesadaOK("1");
-					lista.add(alertas);
-					AlertasBD ab = new AlertasBD(Prueba.this);
-					ab.abrir();
+					for(int i=0;i<jObj.length();i++){
+						ab.abrir();
+						JSONObject rec = jObj.getJSONObject(i);
+						alertas.setIdAlerta(rec.getInt("IdAlerta"));
+						alertas.setIdCurso(rec.getInt("IdCurso"));
+						alertas.setTipoAlerta(rec.getString("TipoAlerta"));
+						alertas.setDetalleAlerta(rec.getString("DetalleAlerta"));
+						alertas.setProcesadaOK("0");
+						lista.add(alertas);
+						GenerarNotificacionAlerta(alertas.getTipoAlerta(),alertas.getDetalleAlerta());
+					}
 					ab.crearEntrada(lista);
 					ab.cerrar();
-					Intent intent = new Intent(Prueba.this,Principal_cursos.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-					PendingIntent pi = PendingIntent.getActivity(Prueba.this, 0, intent,0);
-					String cuerpo = "Tienes Notificaciones";
-					Notification n = new Notification(R.drawable.ic_launcher,cuerpo,System.currentTimeMillis());
-					n.setLatestEventInfo(Prueba.this, alertas.getTipoAlerta(), alertas.getTipoAlerta(), pi);
-					n.flags |= Notification.FLAG_AUTO_CANCEL;
-					nm.notify(unico, n);
-					int contador = 0;
-					contador = contador + 1;
 				}
 			}catch (RuntimeException e){
 
@@ -298,6 +291,21 @@ public class Prueba extends Activity {
 				toast.show();
 			}
 		}
+	}
+	
+	public void GenerarNotificacionAlerta(String tipoAlerta,String detalleAlerta){
+		
+		Intent intent = new Intent(Prueba.this,Principal_cursos.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent pi = PendingIntent.getActivity(Prueba.this, 0, intent,0);
+		String cuerpo = "Tienes Notificaciones";
+		Notification n = new Notification(R.drawable.ic_launcher,cuerpo,System.currentTimeMillis());
+		n.setLatestEventInfo(Prueba.this, tipoAlerta, detalleAlerta, pi);
+		n.flags |= Notification.FLAG_AUTO_CANCEL;
+		nm.notify(unico, n);
+		int contador = 0;
+		contador = contador + 1;
+		
 	}
 
 	private class CargarInfoBDCurso extends AsyncTask<String,Integer,String>

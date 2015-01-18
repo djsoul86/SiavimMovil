@@ -78,6 +78,22 @@ public final class R {
         public static final int tareas__principal=0x7f070005;
     }
     public static final class string {
+        public static final int Apellido=0x7f05000f;
+        public static final int Bienvenido=0x7f050009;
+        public static final int Contrasena=0x7f050017;
+        public static final int Cursos=0x7f050013;
+        public static final int Email=0x7f050010;
+        public static final int Guardar=0x7f050014;
+        public static final int Ingresar=0x7f050018;
+        public static final int Intensidad_Horaria=0x7f05000d;
+        public static final int Modificar_Datos=0x7f05000a;
+        public static final int Nombre=0x7f05000e;
+        public static final int Nombre_Curso=0x7f05000c;
+        public static final int Password=0x7f050012;
+        public static final int Telefono=0x7f050011;
+        public static final int Usuario=0x7f050016;
+        public static final int Ver_Cursos=0x7f05000b;
+        public static final int Ver_Info_Curso=0x7f050015;
         public static final int action_settings=0x7f050003;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050001;
