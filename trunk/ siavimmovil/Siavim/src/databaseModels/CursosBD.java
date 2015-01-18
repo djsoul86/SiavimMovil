@@ -1,9 +1,7 @@
 package databaseModels;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
 
 import android.content.ContentValues;
@@ -28,11 +26,11 @@ public class CursosBD {
 	public static final String ID_JUEVES = "horario_jueves";
 	public static final String ID_VIERNES = "horario_viernes";
 	public static final String ID_SABADO = "horario_sabado";
-	Vector<Horarios> cursosVector = new Vector<Horarios>();
+	ArrayList<Horarios> cursosVector = new ArrayList<Horarios>();
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Cursos_Detail";
-	private static final int VERSION_BD = 8;
+	private static final int VERSION_BD = 9;
 
 
 	private BDHelper nHelper;
@@ -107,9 +105,9 @@ public class CursosBD {
 		}
 	}
 
-	public Vector<Horarios> recibir() {
+	public ArrayList<Horarios> recibir() {
 		// TODO Auto-generated method stub
-		String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
+		//String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
 		Cursor c = nBD.rawQuery("Select * from " + N_TABLA, null);
 
 		int iIdCurso = c.getColumnIndex(ID_CURSO);
@@ -139,11 +137,11 @@ public class CursosBD {
 		}
 		return cursosVector;
 	}
-	
-	public Vector<Horarios> ObtenerCursoPorID(String idCurso) {
+	//recibe nombre del curso
+	public ArrayList<Horarios> ObtenerCursoPorID(String idCurso) {
 		// TODO Auto-generated method stub
-		String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
-		Cursor c = nBD.rawQuery("Select * from " + N_TABLA + " where " + ID_NOMBRECURSO + " = " + idCurso, null);
+		//String[] columnas = new String[]{ID_FILA,ID_CURSO,ID_NOMBRECURSO,ID_INTENSIDADH,ID_PROFESOR,ID_LUNES,ID_MARTES,ID_MIERCOLES,ID_JUEVES,ID_VIERNES,ID_SABADO};
+		Cursor c = nBD.rawQuery("Select * from " + N_TABLA + " where " + ID_NOMBRECURSO + " = '" + idCurso + "'", null);
 
 		int iIdCurso = c.getColumnIndex(ID_CURSO);
 		int iNombreCurso = c.getColumnIndex(ID_NOMBRECURSO);

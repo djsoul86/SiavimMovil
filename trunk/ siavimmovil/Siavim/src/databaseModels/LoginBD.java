@@ -34,11 +34,18 @@ public class LoginBD {
 	public static final String ID_PROCESADAOK = "procesadoOk";
 	public static final String ID_CURSO = "id_curso";
 	
+	public static final String ID_TAREA = "id_tarea";
+	public static final String ID_NOMBRETAREA = "nombre_tarea";
+	public static final String ID_DESCRIPCIONTAREA = "descripcion_tarea";
+	public static final String ID_FECHAENTREGA = "fecha_entrega";
+	public static final String ID_FECHACREACION = "fecha_creacion";
+	
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Login_Detail";
 	private static final String N_TABLAALERTA = "Alertas_Detail";
-	private static final int VERSION_BD = 8;
-	Vector loginvector = new Vector();
+	private static final String N_TABLATAREAS = "Tareas_Detail";
+	private static final int VERSION_BD = 9;
+	Vector<Login> loginvector = new Vector<Login>();
 
 	private BDHelper nHelper;
 	private final Context nContexto;
@@ -55,7 +62,7 @@ public class LoginBD {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			// TODO Auto-generated method stub
+			//Crea tabla de login
 			db.execSQL("CREATE TABLE " + N_TABLA + "(" + 
 					ID_FILA + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 					ID_USUARIO + " TEXT NOT NULL, " +
@@ -69,7 +76,7 @@ public class LoginBD {
 					ID_FECHALOGIN + " TEXT NOT NULL);"
 
 					);
-			
+			//Crea tabla de alertas
 			db.execSQL("CREATE TABLE " + N_TABLAALERTA + "(" + 
 					ID_ALERTA + " INTEGER PRIMARY KEY , " +
 					ID_CURSO + " TEXT NOT NULL, " +
@@ -77,12 +84,24 @@ public class LoginBD {
 					ID_TIPOALERTA + " TEXT NOT NULL, " +
 					ID_PROCESADAOK + " TEXT NOT NULL );"
 					);
+			//Crea tabla de 
+			db.execSQL("CREATE TABLE " + N_TABLATAREAS + "(" + 
+					ID_TAREA + " INTEGER PRIMARY KEY , " +
+					ID_CURSO + " TEXT NOT NULL, " +
+					ID_NOMBRETAREA + " TEXT NOT NULL, " +
+					ID_DESCRIPCIONTAREA + " TEXT NOT NULL, " +
+					ID_FECHACREACION + " TEXT , " +
+					ID_FECHAENTREGA + " TEXT);"
+					);
+
 
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLA);
+			db.execSQL("DROP TABLE IF EXISTS " + N_TABLAALERTA);
+			db.execSQL("DROP TABLE IF EXISTS " + N_TABLATAREAS);
 			onCreate(db);
 		}
 
@@ -116,7 +135,7 @@ public class LoginBD {
 		return nBD.insert(N_TABLA, null, cv);
 	}
 
-	public Vector recibir() {
+	public Vector<Login> recibir() {
 		// TODO Auto-generated method stub
 		String[] columnas = new String[]{ID_FILA,ID_USUARIO,ID_FECHALOGIN,ID_STATUSLOGIN,ID_PASSWORD,ID_APELLIDO,ID_CARRERA,ID_CEDULA,ID_EMAIL,ID_TELEFONO};
 		Cursor c = nBD.query(N_TABLA, columnas,ID_STATUSLOGIN + "= 1", null, null, null, null);

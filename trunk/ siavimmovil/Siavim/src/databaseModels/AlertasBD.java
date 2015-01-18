@@ -11,9 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.models.Alertas;
-import com.example.models.Horarios;
-
-
 
 public class AlertasBD {
 	public static final String ID_ALERTA = "_idalerta";
@@ -26,7 +23,7 @@ public class AlertasBD {
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Alertas_Detail";
-	private static final int VERSION_BD = 8;
+	private static final int VERSION_BD = 9;
 
 
 	private BDHelper nHelper;
@@ -92,7 +89,7 @@ public class AlertasBD {
 
 	public Vector<Alertas> obtenerAlertas() {
 		// TODO Auto-generated method stub
-		String[] columnas = new String[]{ID_ALERTA,ID_CURSO,ID_DESCRIPCIONALERTA,ID_PROCESADAOK,ID_TIPOALERTA};
+		//String[] columnas = new String[]{ID_ALERTA,ID_CURSO,ID_DESCRIPCIONALERTA,ID_PROCESADAOK,ID_TIPOALERTA};
 		Cursor c = nBD.rawQuery("Select * from " + N_TABLA, null);
 
 		int iIdCurso = c.getColumnIndex(ID_CURSO);
