@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -57,6 +57,10 @@
         <activity
             android:name=".MenuCursos"
             android:label="@string/title_activity_menu_cursos" >
+        </activity>
+        <activity
+            android:name=".Tareas_Principal"
+            android:label="@string/title_activity_tareas__principal" >
         </activity>
     </application>
 

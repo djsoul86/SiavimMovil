@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.models.Horarios;
 
@@ -30,12 +29,12 @@ public class Principal_cursos extends Activity {
 		setTitle("CURSOS ASOCIADOS");
 		CursosBD curso = new CursosBD(Principal_cursos.this);
 		curso.abrir();
-		Vector<Horarios> cursos = curso.recibir();
+		ArrayList<Horarios> cursos = curso.recibir();
 		curso.cerrar();
 		ArrayList<String> listaCursos = new ArrayList<String>();
 		for(int i=0;i<cursos.size();i++){
 			Horarios h = new Horarios();
-			h = cursos.elementAt(i);
+			h = cursos.get(i);
 			listaCursos.add(h.NombreCurso);
 		}
 		lista = (ListView) findViewById(R.id.lvLista);

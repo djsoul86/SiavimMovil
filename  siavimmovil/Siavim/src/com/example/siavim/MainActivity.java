@@ -1,7 +1,5 @@
 package com.example.siavim;
 
-import java.util.Vector;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +27,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	private EditText usuario;
 	private EditText clave;
 	private Button btIngresar;
-	Vector loguser = new Vector();
-
 	private static Context context;
 
 	@Override

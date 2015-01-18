@@ -89,7 +89,6 @@ public class ModificarUser extends Activity {
 		protected String doInBackground(String... params) 
 		{
 			String res = "";
-			boolean reg = false;
 			final String NAMESPACE = "http://sgoliver.net/";
 			final String URL="http://10.0.2.2:52250/ValidarUsuario.asmx";
 			final String METHOD_NAME = "ModificarEstudiante";
