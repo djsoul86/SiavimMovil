@@ -29,7 +29,7 @@ public class CursosBD {
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Cursos_Detail";
-	private static final int VERSION_BD = 9;
+	private static final int VERSION_BD = 13;
 
 
 	private BDHelper nHelper;

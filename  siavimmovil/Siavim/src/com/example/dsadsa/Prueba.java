@@ -30,12 +30,14 @@ import android.widget.Toast;
 
 import com.example.models.Alertas;
 import com.example.models.Horarios;
+import com.example.models.Notas;
 import com.example.models.Tareas;
 import com.example.siavim.Login;
 
 import databaseModels.AlertasBD;
 import databaseModels.CursosBD;
 import databaseModels.LoginBD;
+import databaseModels.NotasBD;
 import databaseModels.TareasBD;
 
 public class Prueba extends Activity {
@@ -72,6 +74,8 @@ public class Prueba extends Activity {
 		ConsultarInfoCurso tarea = new ConsultarInfoCurso();
 		CargarInfoBDCurso info = new CargarInfoBDCurso();
 		ConsultarTareas tareas = new ConsultarTareas();
+		ConsultarNotas notas = new ConsultarNotas();
+		notas.execute(cedula);
 		tareas.execute();
 		tarea.execute(cedula);
 		info.execute(cedula);
@@ -124,8 +128,9 @@ public class Prueba extends Activity {
 			Alertas obj = new Alertas();
 			for(int i=0;i<alert.size();i++){
 				obj = alert.elementAt(i);
-				alerts += obj.getIdAlerta();
+				alerts += obj.getIdAlerta() + ",";
 			}
+			alerts = alerts.substring(0, alerts.length() - 1);
 		}
 		ab.cerrar();
 		ConsultarAlertas info = new ConsultarAlertas();
@@ -260,7 +265,7 @@ public class Prueba extends Activity {
 
 		protected void onPostExecute(String result) {
 			try{
-				if(result!= ""){
+				if(result!= "" && !result.equals("[]")){
 					JSONArray jObj;
 					Alertas alertas = new Alertas();
 					AlertasBD ab = new AlertasBD(Prueba.this);					
@@ -400,6 +405,74 @@ public class Prueba extends Activity {
 	}
 
 
+	private class ConsultarNotas extends AsyncTask<String,Integer,String>
+	{
+		@Override
+		protected String doInBackground(String... params) 
+		{
+			String res = "";
+			final String NAMESPACE = "http://sgoliver.net/";
+			final String URL="http://10.0.2.2:52250/ValidarUsuario.asmx";
+			final String METHOD_NAME = "ObtenerNotas";
+			final String SOAP_ACTION = "http://sgoliver.net/ObtenerNotas";
+			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+			request.addProperty("cedula", params[0]); 
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.dotNet = true; 
+			envelope.setOutputSoapObject(request);
+			HttpTransportSE transporte = new HttpTransportSE(URL);
+			try 
+			{
+				transporte.call(SOAP_ACTION, envelope);
+				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
+				res = resultado_xml.toString();
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				Toast toast = Toast.makeText(Prueba.this, "ERROR ConsultarNotas:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
+			} 
+			return res;
+		}
+
+		protected void onPostExecute(String result) {
+			try{
+				if(result!= "" && !result.equals("[]")){
+					JSONArray jObj;
+					Notas notas = new Notas();
+					NotasBD ab = new NotasBD(Prueba.this);					
+					ArrayList<Notas> lista = new ArrayList<Notas>();
+					jObj = new JSONArray(result);
+					for(int i=0;i<jObj.length();i++){
+						ab.abrir();
+						JSONObject rec = jObj.getJSONObject(i);
+						notas.setIdCurso(rec.getInt("IdCurso"));
+						notas.setCedula(rec.getString("Cedula"));
+						notas.setCorte(rec.getInt("Corte"));
+						notas.setFechaNota(rec.getString("FechaNota"));
+						notas.setIdNota(rec.getInt("IdNota"));
+						notas.setNombreNota(rec.getString("NombreNota"));
+						notas.setNota(("Nota"));
+						notas.setPorcentajeNota(rec.getInt("PorcentajeCorte"));
+						lista.add(notas);
+						
+					}
+					ab.crearEntrada(lista);
+					ab.cerrar();
+				}
+			}catch (RuntimeException e){
+
+				e.printStackTrace();
+				Toast toast = Toast.makeText(Prueba.this, "ERROR ConsultarAlertas:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				Toast toast = Toast.makeText(Prueba.this, "ERROR ConsultarAlertas:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
