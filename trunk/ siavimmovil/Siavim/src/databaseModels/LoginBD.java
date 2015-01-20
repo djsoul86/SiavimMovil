@@ -40,11 +40,22 @@ public class LoginBD {
 	public static final String ID_FECHAENTREGA = "fecha_entrega";
 	public static final String ID_FECHACREACION = "fecha_creacion";
 	
+	public static final String ID_NOTA = "id_nota";
+	public static final String ID_FECHANOTA = "fecha_nota";
+	public static final String ID_NOMBRENOTA = "nombre_nota";
+	public static final String ID_VALORNOTA = "valor_nota";
+	public static final String ID_CORTE = "corte_nota";
+	public static final String ID_PORCENTAJE = "porcentaje_nota";
+	public static final String ID_CURSO_NOTAS = "id_curso_nota";
+	
+		
 	private static final String N_BD = "SIAVIMDatabase";
+	
 	private static final String N_TABLA = "Login_Detail";
 	private static final String N_TABLAALERTA = "Alertas_Detail";
 	private static final String N_TABLATAREAS = "Tareas_Detail";
-	private static final int VERSION_BD = 9;
+	private static final String N_TABLANOTAS = "Notas_Detail";
+	private static final int VERSION_BD = 13;
 	Vector<Login> loginvector = new Vector<Login>();
 
 	private BDHelper nHelper;
@@ -93,6 +104,17 @@ public class LoginBD {
 					ID_FECHACREACION + " TEXT , " +
 					ID_FECHAENTREGA + " TEXT);"
 					);
+			
+			db.execSQL("CREATE TABLE " + N_TABLANOTAS + "(" + 
+					ID_NOTA + " INTEGER PRIMARY KEY , " +
+					ID_FECHANOTA + " TEXT NOT NULL, " +
+					ID_NOMBRENOTA + " TEXT NOT NULL, " +
+					ID_VALORNOTA + " TEXT NOT NULL, " +
+					ID_CORTE + " INTEGER , " +
+					ID_CEDULA + " TEXT , " +
+					ID_CURSO_NOTAS + " INTEGER , " +
+					ID_PORCENTAJE + " INTEGER);"
+					);
 
 
 		}
@@ -102,6 +124,7 @@ public class LoginBD {
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLA);
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLAALERTA);
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLATAREAS);
+			db.execSQL("DROP TABLE IF EXISTS " + N_TABLANOTAS);
 			onCreate(db);
 		}
 

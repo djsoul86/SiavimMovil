@@ -23,7 +23,7 @@ public class AlertasBD {
 
 	private static final String N_BD = "SIAVIMDatabase";
 	private static final String N_TABLA = "Alertas_Detail";
-	private static final int VERSION_BD = 9;
+	private static final int VERSION_BD = 13;
 
 
 	private BDHelper nHelper;
@@ -74,7 +74,7 @@ public class AlertasBD {
 
 	public void crearEntrada(ArrayList<Alertas> model) {
 		ContentValues cv = new ContentValues();
-		borrar();
+		try{
 		for(int i=0;i<model.size();i++){
 			Alertas h = new Alertas();
 			h = model.get(i);
@@ -84,6 +84,9 @@ public class AlertasBD {
 			cv.put(ID_PROCESADAOK, h.getProcesadaOK());
 			cv.put(ID_TIPOALERTA,h.getTipoAlerta());
 			nBD.insert(N_TABLA, null, cv);
+		}
+		}catch(SQLException sq){
+			sq.getMessage();
 		}
 	}
 
