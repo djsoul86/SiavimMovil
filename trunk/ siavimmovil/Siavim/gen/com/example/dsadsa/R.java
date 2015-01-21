@@ -33,25 +33,26 @@ public final class R {
         public static final int LabelPassword=0x7f08000d;
         public static final int LabelTelefono=0x7f08000b;
         public static final int LabelUser=0x7f080005;
-        public static final int action_settings=0x7f08001e;
-        public static final int btCursos=0x7f08001b;
+        public static final int action_settings=0x7f08001f;
+        public static final int btCursos=0x7f08001c;
         public static final int btGuardar=0x7f080011;
         public static final int btInfoCurso=0x7f080012;
         public static final int btIngresar=0x7f080002;
-        public static final int btModificar=0x7f08001a;
+        public static final int btModificar=0x7f08001b;
         public static final int etContrasena=0x7f080001;
         public static final int etUsuario=0x7f080000;
         public static final int layoutDinamic=0x7f080017;
         public static final int lblListHeader=0x7f080003;
-        public static final int lblListItem=0x7f08001d;
+        public static final int lblListItem=0x7f08001e;
         public static final int lvCursosMenu=0x7f080004;
-        public static final int lvExp=0x7f08001c;
-        public static final int lvLista=0x7f080018;
+        public static final int lvExp=0x7f08001d;
+        public static final int lvLista=0x7f080019;
+        public static final int main_table=0x7f080018;
         public static final int spOpcion1=0x7f080010;
         public static final int tvApellidoUsuario=0x7f080008;
         public static final int tvEmailUsuario=0x7f08000a;
         public static final int tvIntensidadHoraria=0x7f080016;
-        public static final int tvNombre=0x7f080019;
+        public static final int tvNombre=0x7f08001a;
         public static final int tvNombreCurso=0x7f080014;
         public static final int tvNombreUsuario=0x7f080006;
         public static final int tvPasswordUsuario=0x7f08000e;
@@ -62,20 +63,22 @@ public final class R {
         public static final int activity_menu_cursos=0x7f030001;
         public static final int activity_modificar_user=0x7f030002;
         public static final int activity_mostrar_curso=0x7f030003;
-        public static final int activity_principal_cursos=0x7f030004;
-        public static final int activity_prueba=0x7f030005;
-        public static final int activity_tareas__principal=0x7f030006;
-        public static final int index_activity=0x7f030007;
-        public static final int list_group=0x7f030008;
-        public static final int list_item=0x7f030009;
+        public static final int activity_notas_principal=0x7f030004;
+        public static final int activity_principal_cursos=0x7f030005;
+        public static final int activity_prueba=0x7f030006;
+        public static final int activity_tareas__principal=0x7f030007;
+        public static final int index_activity=0x7f030008;
+        public static final int list_group=0x7f030009;
+        public static final int list_item=0x7f03000a;
     }
     public static final class menu {
         public static final int menu_cursos=0x7f070000;
         public static final int modificar_user=0x7f070001;
         public static final int mostrar_curso=0x7f070002;
-        public static final int principal_cursos=0x7f070003;
-        public static final int prueba=0x7f070004;
-        public static final int tareas__principal=0x7f070005;
+        public static final int notas_principal=0x7f070003;
+        public static final int principal_cursos=0x7f070004;
+        public static final int prueba=0x7f070005;
+        public static final int tareas__principal=0x7f070006;
     }
     public static final class string {
         public static final int Apellido=0x7f05000f;
@@ -100,6 +103,7 @@ public final class R {
         public static final int title_activity_menu_cursos=0x7f050007;
         public static final int title_activity_modificar_user=0x7f050004;
         public static final int title_activity_mostrar_curso=0x7f050005;
+        public static final int title_activity_notas_principal=0x7f050019;
         public static final int title_activity_principal_cursos=0x7f050006;
         public static final int title_activity_prueba=0x7f050002;
         public static final int title_activity_tareas__principal=0x7f050008;

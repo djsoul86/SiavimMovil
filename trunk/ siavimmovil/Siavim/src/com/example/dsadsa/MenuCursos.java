@@ -38,6 +38,13 @@ public class MenuCursos extends Activity {
 					intent.putExtras(bolsa);
 					startActivity(intent);
 				}
+				if(data == "Notas"){
+					Intent intent = new Intent(getApplicationContext(),NotasPrincipal.class);
+					Bundle bolsa = new Bundle();
+					bolsa.putString("CURSO", curso);
+					intent.putExtras(bolsa);
+					startActivity(intent);
+				}
 			}
 		}); 
 	}
