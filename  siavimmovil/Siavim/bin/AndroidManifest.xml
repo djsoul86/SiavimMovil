@@ -62,6 +62,10 @@
             android:name=".Tareas_Principal"
             android:label="@string/title_activity_tareas__principal" >
         </activity>
+        <activity
+            android:name=".NotasPrincipal"
+            android:label="@string/title_activity_notas_principal" >
+        </activity>
     </application>
 
 </manifest>

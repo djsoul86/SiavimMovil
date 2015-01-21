@@ -10,7 +10,6 @@
     <string name="title_activity_principal_cursos">Principal_cursos</string>
     <string name="title_activity_menu_cursos">MenuCursos</string>
     <string name="title_activity_tareas__principal">Tareas_Principal</string>
-    
     <string name="Bienvenido">Bienvenido</string>
     <string name="Modificar_Datos">Modificar Datos</string>
     <string name="Ver_Cursos">Ver Cursos</string>
@@ -27,6 +26,6 @@
     <string name="Usuario">Usuario</string>
     <string name="Contrasena">Contraseña</string>
     <string name="Ingresar">Ingresar</string>
-    
+    <string name="title_activity_notas_principal">NotasPrincipal</string>
 
 </resources>

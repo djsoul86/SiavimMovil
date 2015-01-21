@@ -453,7 +453,7 @@ public class Prueba extends Activity {
 						notas.setFechaNota(rec.getString("FechaNota"));
 						notas.setIdNota(rec.getInt("IdNota"));
 						notas.setNombreNota(rec.getString("NombreNota"));
-						notas.setNota(("Nota"));
+						notas.setNota(rec.getString("Nota"));
 						notas.setPorcentajeNota(rec.getInt("PorcentajeCorte"));
 						lista.add(notas);
 						
