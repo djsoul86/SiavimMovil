@@ -230,7 +230,7 @@ public class Prueba extends Activity {
 		}
 
 		protected void onPostExecute(String result) {
-			if(result!= ""){
+			if(result!= "" && !result.equals("[]")){
 				JSONArray jObj;
 				ArrayList<Asesorias> lista = new ArrayList<Asesorias>();
 				try {

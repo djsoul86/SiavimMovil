@@ -50,7 +50,7 @@ public class AsesoriaPrincipal extends Activity {
 		Bundle bolsa = getIntent().getExtras();
 		setTitle(bolsa.getString("CURSO"));
 		curso = bolsa.getString("CURSO");
-		cedulaBase = claseDB.getCedulaUser();
+		cedulaBase = BaseDatabase.getCedulaUser();
 		ArrayList<Horarios> hor = new ArrayList<Horarios>();
 		CursosBD cur = new CursosBD(AsesoriaPrincipal.this);
 		LoginBD log = new LoginBD(AsesoriaPrincipal.this);
