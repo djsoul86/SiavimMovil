@@ -29,4 +29,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/Ver_Cursos" />
+    
+        <Button
+        android:id="@+id/btCerrarSesion"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/CerrarSesion" />
 </LinearLayout>

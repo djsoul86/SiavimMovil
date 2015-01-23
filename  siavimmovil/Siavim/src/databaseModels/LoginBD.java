@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class LoginBD {
+public class LoginBD extends BaseDatabase {
 
 	public static final String ID_FILA = "_id";
 	public static final String ID_USUARIO = "id_ususario";
@@ -48,14 +48,23 @@ public class LoginBD {
 	public static final String ID_PORCENTAJE = "porcentaje_nota";
 	public static final String ID_CURSO_NOTAS = "id_curso_nota";
 	
-		
-	private static final String N_BD = "SIAVIMDatabase";
+	public static final String ID_ASESORIA = "id_asesoria";
+	public static final String ID_PREGUNTA = "pregunta";
+	public static final String ID_RESUELTAOK = "resultadook";
+	public static final String ID_FECHACREACIONASESORIA = "fecha_creacion";
+	public static final String ID_FECHARESPUESTA = "fecha_respuesta";
+	public static final String ID_CURSO_ASESORIA = "curso_asesoria";	
+	public static final String ID_RESPUESTA = "respuesta";
 	
+	
+	private static final String N_BD = DatabaseName;
+	private static final int VERSION_BD = VersionDatabase;
 	private static final String N_TABLA = "Login_Detail";
 	private static final String N_TABLAALERTA = "Alertas_Detail";
 	private static final String N_TABLATAREAS = "Tareas_Detail";
 	private static final String N_TABLANOTAS = "Notas_Detail";
-	private static final int VERSION_BD = 13;
+	private static final String N_TABLAASESORIAS = "Asesorias_Detail";
+	
 	Vector<Login> loginvector = new Vector<Login>();
 
 	private BDHelper nHelper;
@@ -90,10 +99,10 @@ public class LoginBD {
 			//Crea tabla de alertas
 			db.execSQL("CREATE TABLE " + N_TABLAALERTA + "(" + 
 					ID_ALERTA + " INTEGER PRIMARY KEY , " +
-					ID_CURSO + " TEXT NOT NULL, " +
-					ID_DESCRIPCIONALERTA + " TEXT NOT NULL, " +
-					ID_TIPOALERTA + " TEXT NOT NULL, " +
-					ID_PROCESADAOK + " TEXT NOT NULL );"
+					ID_CURSO + " INTEGER , " +
+					ID_DESCRIPCIONALERTA + " TEXT , " +
+					ID_TIPOALERTA + " TEXT , " +
+					ID_PROCESADAOK + " TEXT );"
 					);
 			//Crea tabla de 
 			db.execSQL("CREATE TABLE " + N_TABLATAREAS + "(" + 
@@ -116,6 +125,16 @@ public class LoginBD {
 					ID_PORCENTAJE + " INTEGER);"
 					);
 
+			db.execSQL("CREATE TABLE " + N_TABLAASESORIAS + "(" + 
+					ID_ASESORIA + " INTEGER PRIMARY KEY , " +
+					ID_PREGUNTA + " TEXT , " +
+					ID_RESUELTAOK + " INTEGER , " +
+					ID_FECHACREACIONASESORIA + " TEXT , " +
+					ID_CURSO_ASESORIA + " TEXT , " +
+					ID_RESPUESTA + " TEXT , " +
+					ID_FECHARESPUESTA + " TEXT);"
+					);
+			
 
 		}
 
@@ -125,6 +144,7 @@ public class LoginBD {
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLAALERTA);
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLATAREAS);
 			db.execSQL("DROP TABLE IF EXISTS " + N_TABLANOTAS);
+			db.execSQL("DROP TABLE IF EXISTS " + N_TABLAASESORIAS);
 			onCreate(db);
 		}
 
@@ -160,9 +180,8 @@ public class LoginBD {
 
 	public Vector<Login> recibir() {
 		// TODO Auto-generated method stub
-		String[] columnas = new String[]{ID_FILA,ID_USUARIO,ID_FECHALOGIN,ID_STATUSLOGIN,ID_PASSWORD,ID_APELLIDO,ID_CARRERA,ID_CEDULA,ID_EMAIL,ID_TELEFONO};
-		Cursor c = nBD.query(N_TABLA, columnas,ID_STATUSLOGIN + "= 1", null, null, null, null);
-
+		Cursor c = nBD.rawQuery("Select * from " + N_TABLA + " where " + ID_STATUSLOGIN + " = '1'" , null);
+		
 		int iUsuario = c.getColumnIndex(ID_USUARIO);
 		int iFecha = c.getColumnIndex(ID_FECHALOGIN);
 		int iStatus = c.getColumnIndex(ID_STATUSLOGIN);
@@ -220,7 +239,8 @@ public class LoginBD {
 		try{
 			ContentValues cvEditar = new ContentValues();
 			cvEditar.put(ID_STATUSLOGIN, 0);
-			nBD.update(N_TABLA, cvEditar, ID_USUARIO + "=" + "\""+user+"\"", null);
+			nBD.update(N_TABLA, cvEditar, ID_CEDULA + "=" + "\""+user+"\"", null);
+			nBD.rawQuery("Update " + N_TABLA + " set " + ID_STATUSLOGIN + " = 1 where " + ID_CEDULA + " = '" + user + "'", null);
 
 		}catch(Exception exc){
 

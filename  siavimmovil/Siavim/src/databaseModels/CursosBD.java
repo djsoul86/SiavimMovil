@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.models.Horarios;
 
 
-public class CursosBD {
+public class CursosBD extends BaseDatabase {
 	public static final String ID_FILA = "_id";
 	public static final String ID_CURSO = "id_curso";
 	public static final String ID_NOMBRECURSO = "nombre_curso";
@@ -27,9 +27,11 @@ public class CursosBD {
 	public static final String ID_SABADO = "horario_sabado";
 	ArrayList<Horarios> cursosVector = new ArrayList<Horarios>();
 
-	private static final String N_BD = "SIAVIMDatabase";
+
+	private static final String N_BD = DatabaseName;
+	private static final int VERSION_BD = VersionDatabase;
 	private static final String N_TABLA = "Cursos_Detail";
-	private static final int VERSION_BD = 13;
+	
 
 
 	private BDHelper nHelper;
@@ -85,9 +87,10 @@ public class CursosBD {
 	}
 
 	public void crearEntrada(ArrayList<Horarios> model) {
-		ContentValues cv = new ContentValues();
+		
 		borrar();
 		for(int i=0;i<model.size();i++){
+			ContentValues cv = new ContentValues();
 			Horarios h = new Horarios();
 			h = model.get(i);
 			cv.put(ID_CURSO, h.getIDCurso());

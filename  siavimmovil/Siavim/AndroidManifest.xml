@@ -66,6 +66,10 @@
             android:name=".NotasPrincipal"
             android:label="@string/title_activity_notas_principal" >
         </activity>
+        <activity
+            android:name=".AsesoriaPrincipal"
+            android:label="@string/title_activity_asesoria_principal" >
+        </activity>
     </application>
 
 </manifest>
