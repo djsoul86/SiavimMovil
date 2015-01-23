@@ -94,10 +94,10 @@ public class NotasBD extends BaseDatabase {
 		}
 	}
 
-	public ArrayList<Notas> recibir() {
+	public ArrayList<Notas> recibir(String cedula) {
 		// TODO Auto-generated method stub
 		//String[] columnas = new String[]{ID_TAREA,ID_CURSO,ID_NOMBRETAREA,ID_DESCRIPCIONTAREA,ID_FECHACREACION,ID_FECHAENTREGA};
-		Cursor c = nBD.rawQuery("Select * from " + N_TABLANOTAS, null);
+		Cursor c = nBD.rawQuery("Select * from " + N_TABLANOTAS + " where " + ID_CEDULA + " ='" + cedula + "'", null);
 
 		int iIdCurso = c.getColumnIndex(ID_CURSO_NOTAS);
 		int iIdCedula = c.getColumnIndex(ID_CEDULA);

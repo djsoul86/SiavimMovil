@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.example.models.Notas;
 
+import databaseModels.BaseDatabase;
 import databaseModels.NotasBD;
 
 public class NotasPrincipal extends Activity {
 
-	String curso;
+	public static BaseDatabase mClass;
+	String curso,cedulaBase;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class NotasPrincipal extends Activity {
 		Bundle bolsa = getIntent().getExtras();
 		setTitle(bolsa.getString("CURSO"));
 		curso = bolsa.getString("CURSO");
+		cedulaBase = BaseDatabase.getCedulaUser();
 		TableLayout tl = (TableLayout) findViewById(R.id.main_table);
 		TableRow tr_head = new TableRow(this);
 		tr_head.setId(10);
@@ -66,7 +70,7 @@ public class NotasPrincipal extends Activity {
         NotasBD nb = new NotasBD(NotasPrincipal.this);
 		nb.abrir();
 		int count =0;
-		ArrayList<Notas> notas = nb.recibir();
+		ArrayList<Notas> notas = nb.recibir(cedulaBase);
 		for(int i=0;i<notas.size();i++){
 			TableRow tr = new TableRow(this);
 			if(count % 2!=0){
