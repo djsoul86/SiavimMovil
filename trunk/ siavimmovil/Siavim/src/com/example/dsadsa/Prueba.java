@@ -29,21 +29,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.models.Alertas;
+import com.example.models.Asesorias;
 import com.example.models.Horarios;
 import com.example.models.Notas;
 import com.example.models.Tareas;
 import com.example.siavim.Login;
+import com.example.siavim.MainActivity;
 
 import databaseModels.AlertasBD;
+import databaseModels.AsesoriasBD;
+import databaseModels.BaseDatabase;
 import databaseModels.CursosBD;
 import databaseModels.LoginBD;
 import databaseModels.NotasBD;
 import databaseModels.TareasBD;
 
 public class Prueba extends Activity {
-
+	
+	public static BaseDatabase mClass;
+	
+	
 	TextView nombre;
-	Button btModificar,btCursos;
+	Button btModificar,btCursos,btCerrarSesion;
 	Vector<Login> loguser = new Vector<Login>();
 	String nombreUsuario,apellidos,email,telefono,password,cedula,nombreCursos;
 	Handler hand = new Handler();
@@ -56,6 +63,8 @@ public class Prueba extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prueba);
+		mClass = new BaseDatabase();
+		
 		setTitle("INDEX");
 		nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		nm.cancel(unico);
@@ -66,7 +75,9 @@ public class Prueba extends Activity {
 		password = bolsa.getString("PASSWORD");
 		email = bolsa.getString("EMAIL");
 		cedula = bolsa.getString("CEDULA");
+		mClass.setCedulaUser(cedula);
 		btCursos = (Button) findViewById(R.id.btCursos);
+		btCerrarSesion = (Button) findViewById(R.id.btCerrarSesion);
 		LoginBD lbd = new LoginBD(Prueba.this);
 		nombre = (TextView) findViewById(R.id.tvNombre);
 		nombre.setText(nombreUsuario + " " + bolsa.getString("APELLIDOS"));
@@ -75,6 +86,8 @@ public class Prueba extends Activity {
 		CargarInfoBDCurso info = new CargarInfoBDCurso();
 		ConsultarTareas tareas = new ConsultarTareas();
 		ConsultarNotas notas = new ConsultarNotas();
+		ConsultarInfoAsesorias ases = new ConsultarInfoAsesorias();
+		ases.execute(cedula);
 		notas.execute(cedula);
 		tareas.execute();
 		tarea.execute(cedula);
@@ -105,6 +118,18 @@ public class Prueba extends Activity {
 			public void onClick(View arg0) {
 
 				Intent intent = new Intent(getApplicationContext(),Principal_cursos.class);
+				startActivity(intent);
+			}
+		});
+		
+		btCerrarSesion.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				LoginBD lb = new LoginBD(Prueba.this);
+				lb.abrir();
+				lb.ModificarStatusLogout(cedula);
+				lb.cerrar();
+				Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -170,6 +195,74 @@ public class Prueba extends Activity {
 
 		protected void onPostExecute(String result) {
 			nombreCursos = result;
+		}
+	}
+	
+	private class ConsultarInfoAsesorias extends AsyncTask<String,Integer,String>
+	{
+		@Override
+		protected String doInBackground(String... params) 
+		{
+			String res = "";
+			final String NAMESPACE = "http://sgoliver.net/";
+			final String URL="http://10.0.2.2:52250/ValidarUsuario.asmx";
+			final String METHOD_NAME = "ObtenerAsesorias";
+			final String SOAP_ACTION = "http://sgoliver.net/ObtenerAsesorias";
+			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+			request.addProperty("cedula", params[0]); 
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.dotNet = true; 
+			envelope.setOutputSoapObject(request);
+			HttpTransportSE transporte = new HttpTransportSE(URL);
+			try 
+			{
+				transporte.call(SOAP_ACTION, envelope);
+				SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
+				res = resultado_xml.toString();
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				Toast toast = Toast.makeText(Prueba.this, "ERROR ConsultarInfoAsesorias:" + e.getMessage(), Toast.LENGTH_SHORT);
+				toast.show();
+			} 
+			return res;
+		}
+
+		protected void onPostExecute(String result) {
+			if(result!= ""){
+				JSONArray jObj;
+				ArrayList<Asesorias> lista = new ArrayList<Asesorias>();
+				try {
+					jObj = new JSONArray(result);
+					for(int i=0;i<jObj.length();i++){
+						Asesorias asesorias = new Asesorias();
+						JSONObject rec = jObj.getJSONObject(i);
+						asesorias.setAsesoria(rec.getInt("IdAsesoria"));
+						asesorias.setFechaCreacion(rec.getString("FechaCreacion"));
+						asesorias.setFechaRespuesta(rec.getString("FechaRespuesta"));
+						asesorias.setIdCurso(rec.getString("IdCurso"));
+						asesorias.setPregunta(rec.getString("Pregunta"));
+						asesorias.setRespuesta(rec.getString("Pregunta"));
+						String resuelta = rec.getString("ResueltaOk");
+						int res = 0;
+						if(resuelta == "true"){
+							res = 1;
+						}
+						asesorias.setResueltaOk(res);
+						lista.add(asesorias);
+					}
+					AsesoriasBD ase = new AsesoriasBD(getApplicationContext());
+					ase.abrir();
+					ase.crearEntradaLote(lista);
+					ase.cerrar();
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+					Toast toast = Toast.makeText(Prueba.this, "ERROR ConsultarTareas:" + e.getMessage(), Toast.LENGTH_SHORT);
+					toast.show();
+				}
+			}
 		}
 	}
 
@@ -267,12 +360,13 @@ public class Prueba extends Activity {
 			try{
 				if(result!= "" && !result.equals("[]")){
 					JSONArray jObj;
-					Alertas alertas = new Alertas();
+					
 					AlertasBD ab = new AlertasBD(Prueba.this);					
 					ArrayList<Alertas> lista = new ArrayList<Alertas>();
 					jObj = new JSONArray(result);
+					ab.abrir();
 					for(int i=0;i<jObj.length();i++){
-						ab.abrir();
+						Alertas alertas = new Alertas();
 						JSONObject rec = jObj.getJSONObject(i);
 						alertas.setIdAlerta(rec.getInt("IdAlerta"));
 						alertas.setIdCurso(rec.getInt("IdCurso"));

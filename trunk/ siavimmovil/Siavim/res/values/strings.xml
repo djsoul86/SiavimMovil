@@ -27,5 +27,10 @@
     <string name="Contrasena">Contraseña</string>
     <string name="Ingresar">Ingresar</string>
     <string name="title_activity_notas_principal">NotasPrincipal</string>
+    <string name="title_activity_asesoria_principal">AsesoriaPrincipal</string>
+    <string name="DigitePregunta">Digite su pregunta:</string>
+    <string name="EnviarPregunta">Enviar Pregunta</string>
+    <string name="CerrarSesion">Cerrar Sesion</string>
+    
 
 </resources>

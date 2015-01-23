@@ -12,18 +12,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.models.Alertas;
 
-public class AlertasBD {
+public class AlertasBD extends BaseDatabase {
 	public static final String ID_ALERTA = "_idalerta";
 	public static final String ID_TIPOALERTA = "id_tipoalerta";
 	public static final String ID_DESCRIPCIONALERTA = "descripcion_alerta";
 	public static final String ID_PROCESADAOK = "procesadoOk";
 	public static final String ID_CURSO = "id_curso";
-	
+
 	Vector<Alertas> alertasVector = new Vector<Alertas>();
 
-	private static final String N_BD = "SIAVIMDatabase";
+	private static final String N_BD = DatabaseName;
+	private static final int VERSION_BD = VersionDatabase;
 	private static final String N_TABLA = "Alertas_Detail";
-	private static final int VERSION_BD = 13;
+	
 
 
 	private BDHelper nHelper;
@@ -44,10 +45,10 @@ public class AlertasBD {
 			// TODO Auto-generated method stub
 			db.execSQL("CREATE TABLE " + N_TABLA + "(" + 
 					ID_ALERTA + " INTEGER PRIMARY KEY , " +
-					ID_CURSO + " TEXT NOT NULL, " +
-					ID_DESCRIPCIONALERTA + " TEXT NOT NULL, " +
-					ID_TIPOALERTA + " TEXT NOT NULL, " +
-					ID_PROCESADAOK + " TEXT NOT NULL );"
+					ID_CURSO + " TEXT , " +
+					ID_DESCRIPCIONALERTA + " TEXT , " +
+					ID_TIPOALERTA + " TEXT , " +
+					ID_PROCESADAOK + " TEXT );"
 					);
 
 		}
@@ -73,34 +74,32 @@ public class AlertasBD {
 	}
 
 	public void crearEntrada(ArrayList<Alertas> model) {
-		ContentValues cv = new ContentValues();
+		
 		try{
-		for(int i=0;i<model.size();i++){
-			Alertas h = new Alertas();
-			h = model.get(i);
-			cv.put(ID_ALERTA, h.getIdAlerta());
-			cv.put(ID_CURSO, h.getIdCurso());
-			cv.put(ID_DESCRIPCIONALERTA,h.getDetalleAlerta());
-			cv.put(ID_PROCESADAOK, h.getProcesadaOK());
-			cv.put(ID_TIPOALERTA,h.getTipoAlerta());
-			nBD.insert(N_TABLA, null, cv);
-		}
+			for(int i=0;i<model.size();i++){
+				ContentValues cv = new ContentValues();
+				Alertas h = new Alertas();
+				h = model.get(i);
+				cv.put(ID_ALERTA, h.getIdAlerta());
+				cv.put(ID_CURSO, h.getIdCurso());
+				cv.put(ID_DESCRIPCIONALERTA,h.getDetalleAlerta());
+				cv.put(ID_PROCESADAOK, h.getProcesadaOK());
+				cv.put(ID_TIPOALERTA,h.getTipoAlerta());
+				nBD.insert(N_TABLA, null, cv);
+			}
 		}catch(SQLException sq){
 			sq.getMessage();
 		}
 	}
 
 	public Vector<Alertas> obtenerAlertas() {
-		// TODO Auto-generated method stub
-		//String[] columnas = new String[]{ID_ALERTA,ID_CURSO,ID_DESCRIPCIONALERTA,ID_PROCESADAOK,ID_TIPOALERTA};
 		Cursor c = nBD.rawQuery("Select * from " + N_TABLA, null);
-
 		int iIdCurso = c.getColumnIndex(ID_CURSO);
 		int iIdAlerta = c.getColumnIndex(ID_ALERTA);
 		int iDescripcion = c.getColumnIndex(ID_DESCRIPCIONALERTA);
 		int iProcesada = c.getColumnIndex(ID_PROCESADAOK);
 		int iTipoAlerta = c.getColumnIndex(ID_TIPOALERTA);
-		
+
 		for(c.moveToFirst();! c.isAfterLast(); c.moveToNext()){
 			Alertas al = new Alertas();
 			al.setIdAlerta(c.getInt(iIdAlerta));

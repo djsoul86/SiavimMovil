@@ -1,15 +1,17 @@
 package databaseModels;
 
 import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.example.models.Tareas;
 
-public class TareasBD {
+public class TareasBD extends BaseDatabase {
 	public static final String ID_TAREA = "id_tarea";
 	public static final String ID_NOMBRETAREA = "nombre_tarea";
 	public static final String ID_DESCRIPCIONTAREA = "descripcion_tarea";
@@ -19,11 +21,10 @@ public class TareasBD {
 
 	ArrayList<Tareas> TareasVector = new ArrayList<Tareas>();
 
-	private static final String N_BD = "SIAVIMDatabase";
+	private static final String N_BD = DatabaseName;
+	private static final int VERSION_BD = VersionDatabase;
 	private static final String N_TABLA = "Tareas_Detail";
-	private static final int VERSION_BD = 13;
-
-
+	
 	private BDHelper nHelper;
 	private final Context nContexto;
 	private SQLiteDatabase nBD;
@@ -72,10 +73,11 @@ public class TareasBD {
 	}
 
 	public void crearEntrada(ArrayList<Tareas> model) {
-		ContentValues cv = new ContentValues();
+		
 		borrar();
 		for(int i=0;i<model.size();i++){
 			Tareas h = new Tareas();
+			ContentValues cv = new ContentValues();
 			h = model.get(i);
 			cv.put(ID_TAREA, h.getIdTarea());
 			cv.put(ID_CURSO, h.getIdCurso());

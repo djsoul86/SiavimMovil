@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.models.Notas;
 
 
-public class NotasBD {
+public class NotasBD extends BaseDatabase {
 	public static final String ID_NOTA = "id_nota";
 	public static final String ID_FECHANOTA = "fecha_nota";
 	public static final String ID_NOMBRENOTA = "nombre_nota";
@@ -21,10 +21,10 @@ public class NotasBD {
 	public static final String ID_PORCENTAJE = "porcentaje_nota";
 	public static final String ID_CEDULA = "cedula_usuario";
 	public static final String ID_CURSO_NOTAS = "id_curso_nota";
-	
-	private static final String N_BD = "SIAVIMDatabase";
+	private static final String N_BD = DatabaseName;
+	private static final int VERSION_BD = VersionDatabase;
 	private static final String N_TABLANOTAS = "Notas_Detail";
-	private static final int VERSION_BD = 13;
+	
 	ArrayList<Notas> notasArray = new ArrayList<Notas>();
 
 	private BDHelper nHelper;
@@ -77,9 +77,10 @@ public class NotasBD {
 
 	public void crearEntrada(ArrayList<Notas> model) {
 		borrar();
-		ContentValues cv = new ContentValues();
+		
 		for(int i=0;i<model.size();i++){
 			Notas n = new Notas();
+			ContentValues cv = new ContentValues();
 			n = model.get(i);
 			cv.put(ID_NOTA, n.getIdNota());
 			cv.put(ID_NOMBRENOTA, n.getNombreNota());
